@@ -1,0 +1,29 @@
+_schema-version: "2.1"
+ID: bas-hanacloud-calcview
+version: 0.0.1
+modules:
+- name: calcview-hdb
+  type: hdb
+  path: db
+  build-parameters:
+    # Don't package the dependencies if you're running into EINTEGRITY issues
+    ignore: ["default-env.json", "node_modules/", "package-lock.json"]
+    # Suppress the calling of npm install by listing no commands
+    builder: custom
+    commands: []
+  parameters:
+    memory: 512M
+    disk-quota: 512M
+    # host: ${org}-${space}-capmt-srv
+    # host: calcview-hdb
+  requires:
+  - name: hdi_db
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-name}
+resources:
+- name: hdi_db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service-name: CALCVIEW_HDI
+  properties:
+    hdi-container-name: ${service-name}
