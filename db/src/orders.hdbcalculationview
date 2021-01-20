@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="orders" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="orders"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="MY_BOOKSHOP_ORDERS">
+    <resourceUri>MY_BOOKSHOP_ORDERS</resourceUri>
+  </DataSource>
+  <DataSource id="SAP_COMMON_COUNTRIES">
+    <resourceUri>SAP_COMMON_COUNTRIES</resourceUri>
+  </DataSource>
+  <DataSource id="MY_BOOKSHOP_BOOKS">
+    <resourceUri>MY_BOOKSHOP_BOOKS</resourceUri>
+  </DataSource>
+  <DataSource id="MY_BOOKSHOP_AUTHORS">
+    <resourceUri>MY_BOOKSHOP_AUTHORS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_1" cardinality="CN_N" joinType="inner" multiJoinNode="Join_1" multiJoinCentralTable="MY_BOOKSHOP_AUTHORS" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="SOLD_ON"/>
+      <viewAttribute id="QUANTITY" aggregationType="sum"/>
+      <viewAttribute id="PRICE_USD" aggregationType="sum"/>
+      <viewAttribute id="COUNTRY"/>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="BOOK_ID"/>
+      <viewAttribute hidden="true" id="JOIN$COUNTRY_CODE$CODE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="MY_BOOKSHOP_ORDERS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SOLD_ON" source="SOLD_ON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="QUANTITY" source="QUANTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRICE_USD" source="PRICE_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOK_ID" source="BOOK_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$COUNTRY_CODE$CODE" source="COUNTRY_CODE"/>
+    </input>
+    <input node="SAP_COMMON_COUNTRIES">
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTRY" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$COUNTRY_CODE$CODE" source="CODE"/>
+    </input>
+    <joinAttribute name="JOIN$COUNTRY_CODE$CODE"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_2" cardinality="CN_N" joinType="inner" multiJoinNode="Join_1" multiJoinCentralTable="MY_BOOKSHOP_AUTHORS" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="TITLE"/>
+      <viewAttribute id="STOCK" aggregationType="sum"/>
+      <viewAttribute id="SOLD_ON"/>
+      <viewAttribute id="QUANTITY" aggregationType="sum"/>
+      <viewAttribute id="PRICE_USD" aggregationType="sum"/>
+      <viewAttribute id="COUNTRY"/>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="AUTHOR_ID"/>
+      <viewAttribute hidden="true" id="JOIN$ID$BOOK_ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="MY_BOOKSHOP_BOOKS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TITLE" source="TITLE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STOCK" source="STOCK"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AUTHOR_ID" source="AUTHOR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$BOOK_ID" source="ID"/>
+    </input>
+    <input node="Join_1_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SOLD_ON" source="SOLD_ON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="QUANTITY" source="QUANTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRICE_USD" source="PRICE_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTRY" source="COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$BOOK_ID" source="BOOK_ID"/>
+    </input>
+    <joinAttribute name="JOIN$ID$BOOK_ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_3" cardinality="CN_N" joinType="inner" multiJoinNode="Join_1" multiJoinCentralTable="MY_BOOKSHOP_AUTHORS" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="TITLE"/>
+      <viewAttribute id="STOCK" aggregationType="sum"/>
+      <viewAttribute id="SOLD_ON"/>
+      <viewAttribute id="QUANTITY" aggregationType="sum"/>
+      <viewAttribute id="PRICE_USD" aggregationType="sum"/>
+      <viewAttribute id="COUNTRY"/>
+      <viewAttribute id="ID"/>
+      <viewAttribute hidden="true" id="JOIN$ID$AUTHOR_ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="MY_BOOKSHOP_AUTHORS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$AUTHOR_ID" source="ID"/>
+    </input>
+    <input node="Join_1_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TITLE" source="TITLE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STOCK" source="STOCK"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SOLD_ON" source="SOLD_ON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="QUANTITY" source="QUANTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRICE_USD" source="PRICE_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTRY" source="COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$AUTHOR_ID" source="AUTHOR_ID"/>
+    </input>
+    <joinAttribute name="JOIN$ID$AUTHOR_ID"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1_3">
+  <attributes>
+    <attribute id="NAME" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="NAME"/>
+    </attribute>
+    <attribute id="TITLE" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TITLE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TITLE"/>
+    </attribute>
+    <attribute id="SOLD_ON" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SOLD_ON"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="SOLD_ON"/>
+    </attribute>
+    <attribute id="COUNTRY" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME_1"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="COUNTRY"/>
+    </attribute>
+    <attribute id="ID" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ID"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="STOCK" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="STOCK"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="STOCK"/>
+    </measure>
+    <measure id="QUANTITY" order="5" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="QUANTITY"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="QUANTITY"/>
+    </measure>
+    <measure id="PRICE_USD" order="6" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="PRICE_USD"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="PRICE_USD"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="100" y="105"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="95" y="207"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="MY_BOOKSHOP_AUTHORS" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="224.6875"/>
+    </shape>
+    <shape modelObjectName="MY_BOOKSHOP_BOOKS" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="209.359375"/>
+    </shape>
+    <shape modelObjectName="MY_BOOKSHOP_ORDERS" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="216.6953125"/>
+    </shape>
+    <shape modelObjectName="SAP_COMMON_COUNTRIES" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="228.68359375"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
