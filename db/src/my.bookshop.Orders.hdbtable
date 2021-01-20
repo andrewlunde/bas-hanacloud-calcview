@@ -12,6 +12,5 @@ COLUMN TABLE my_bookshop_Orders (
   state_code NVARCHAR(2),
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
-  MANY TO ONE JOIN my_bookshop_Books AS book ON (book.ID = book_ID),
-  MANY TO ONE JOIN sap_common_Countries AS country ON (country.code = country_code)
+  MANY TO ONE JOIN my_bookshop_Books AS book ON (book.ID = book_ID)
 )
