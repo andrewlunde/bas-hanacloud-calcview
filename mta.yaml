@@ -25,5 +25,13 @@ resources:
   type: com.sap.xs.hdi-container
   parameters:
     service-name: CALCVIEW_HDI
+    config:
+      # A blank(or missing) schema config allows the system to use a GUID name for the schema
+      schema:
+      #schema: NO_SCHEMA_GUID_NAME
+      # HANACloud : The <HANA instance GUID> can be found on the HANA Instances screen Actions -> Copy instance ID
+      # HANA As A Servie : <HANA instance GUID> can be found on the HANA Service Dashboard Details -> ID:
+      # Equivalent command is : cf create-service hana hdi-shared CALCVIEW_HDI -c '{"database_id":"<HANA instance GUID>"}'
+      #database_id: <HANA instance GUID>
   properties:
     hdi-container-name: ${service-name}
